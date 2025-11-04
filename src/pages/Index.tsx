@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { WikiInput } from '@/components/WikiInput';
 import { ScriptEditor } from '@/components/ScriptEditor';
-import { EnhancedPreview } from '@/components/EnhancedPreview';
+import { VideoPreview } from '@/components/VideoPreview';
 import { ExportPanel } from '@/components/ExportPanel';
 import { TimelineEditor } from '@/components/TimelineEditor';
 import { TemplateSelector } from '@/components/TemplateSelector';
@@ -164,11 +164,9 @@ const Index = () => {
             <div className="grid lg:grid-cols-3 gap-6">
               {/* Left Column - Preview */}
               <div className="lg:col-span-2 space-y-6">
-                <EnhancedPreview 
+                <VideoPreview
                   articleData={articleData} 
                   script={script}
-                  template={selectedTemplate}
-                  settings={videoSettings}
                 />
                 
                 {script?.scenes && (
