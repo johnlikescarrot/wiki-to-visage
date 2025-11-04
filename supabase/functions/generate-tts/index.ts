@@ -25,20 +25,34 @@ serve(async (req) => {
     console.log('Generating TTS for text length:', text.length);
     console.log('Voice:', voice, 'Speed:', speed);
 
-    // Note: This is a placeholder for TTS generation
-    // In a production environment, you would integrate with a proper TTS service
-    // like OpenAI TTS, ElevenLabs, or Google TTS
-    
-    // For now, we'll return a mock response indicating TTS would be generated
+    const response = await fetch('https://api.openai.com/v1/audio/speech', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'tts-1',
+        input: text,
+        voice: voice,
+        speed: speed,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('OpenAI TTS error:', response.status, errorText);
+      throw new Error('Failed to generate TTS audio');
+    }
+
+    const audioBlob = await response.blob();
+    const audioBuffer = await audioBlob.arrayBuffer();
+    const audioBase64 = btoa(String.fromCharCode(...new Uint8Array(audioBuffer)));
+
     return new Response(
       JSON.stringify({
         success: true,
-        message: 'TTS generation initiated',
-        audioUrl: null, // Would contain actual audio URL from TTS service
-        duration: Math.ceil(text.split(' ').length / 2.5), // Rough estimate: 150 words per minute
-        voice,
-        speed,
-        note: 'This is a preview version. Actual audio generation requires TTS service integration (OpenAI, ElevenLabs, or Google TTS).'
+        audioData: `data:audio/mpeg;base64,${audioBase64}`,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

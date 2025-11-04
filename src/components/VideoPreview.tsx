@@ -1,6 +1,7 @@
 import { Card } from './ui/card';
 import { Play, Volume2, Settings } from 'lucide-react';
 import { Button } from './ui/button';
+import { useState } from 'react';
 
 interface VideoPreviewProps {
   articleData?: unknown;
@@ -8,6 +9,36 @@ interface VideoPreviewProps {
 }
 
 export const VideoPreview = ({ articleData, script }: VideoPreviewProps) => {
+  const [audioData, setAudioData] = useState<{ [key: number]: string }>({});
+
+  const generateAndPlayAudio = async (text: string, sceneIndex: number) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-tts`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ text }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to generate audio');
+      }
+
+      const { audioData } = await response.json();
+      setAudioData((prev) => ({ ...prev, [sceneIndex]: audioData }));
+
+      const audio = new Audio(audioData);
+      audio.play();
+    } catch (error) {
+      console.error('Error generating audio:', error);
+    }
+  };
+
   return (
     <Card className="overflow-hidden bg-gradient-to-br from-card to-card/80 border-border/50">
       <div className="aspect-video bg-gradient-to-br from-background via-background to-muted/20 relative group">
@@ -70,6 +101,9 @@ export const VideoPreview = ({ articleData, script }: VideoPreviewProps) => {
                   <p className="text-sm truncate">{scene.text.substring(0, 60)}...</p>
                   <p className="text-xs text-muted-foreground">{scene.duration}s • {scene.visualSuggestion}</p>
                 </div>
+                <Button size="sm" variant="outline" onClick={() => generateAndPlayAudio(scene.text, idx)} data-testid={`generate-audio-${idx}`}>
+                  <Volume2 className="h-4 w-4" />
+                </Button>
               </div>
             ))}
             {script.scenes.length > 3 && (
