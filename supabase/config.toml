@@ -1,0 +1,10 @@
+project_id = "wqmcbdpzhboxafpexxpr"
+
+[functions.parse-wikipedia]
+verify_jwt = false
+
+[functions.generate-script]
+verify_jwt = false
+
+[functions.generate-tts]
+verify_jwt = false
