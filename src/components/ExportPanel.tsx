@@ -4,8 +4,8 @@ import { Download, Share2, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface ExportPanelProps {
-  script?: any;
-  articleData?: any;
+  script?: unknown;
+  articleData?: unknown;
 }
 
 export const ExportPanel = ({ script, articleData }: ExportPanelProps) => {

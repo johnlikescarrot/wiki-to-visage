@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
-import { Textarea } from './ui/textarea';
 import { Card } from './ui/card';
-import { Wand2, RefreshCw } from 'lucide-react';
+import { Wand2, RefreshCw, Copy } from 'lucide-react';
 import { toast } from 'sonner';
+import Editor from '@monaco-editor/react';
+import { useTheme } from 'next-themes';
 
 interface Scene {
   text: string;
@@ -12,15 +13,16 @@ interface Scene {
 }
 
 interface ScriptEditorProps {
-  articleData: any;
-  onScriptGenerated: (script: any) => void;
+  articleData: unknown;
+  onScriptGenerated: (script: unknown) => void;
 }
 
 export const ScriptEditor = ({ articleData, onScriptGenerated }: ScriptEditorProps) => {
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedScript, setGeneratedScript] = useState<any>(null);
+  const [generatedScript, setGeneratedScript] = useState<unknown>(null);
   const [duration, setDuration] = useState(60);
   const [style, setStyle] = useState('informative');
+  const { theme } = useTheme();
 
   const generateScript = async () => {
     setIsGenerating(true);
@@ -149,12 +151,35 @@ export const ScriptEditor = ({ articleData, onScriptGenerated }: ScriptEditorPro
             </div>
 
             <div>
-              <label className="text-sm font-medium text-muted-foreground">Generated Script</label>
-              <Textarea
-                value={generatedScript.script}
-                onChange={(e) => setGeneratedScript({ ...generatedScript, script: e.target.value })}
-                className="mt-1.5 min-h-[200px] bg-background/50 font-mono text-sm"
-              />
+              <div className="flex justify-between items-center">
+                <label className="text-sm font-medium text-muted-foreground">Generated Script</label>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    navigator.clipboard.writeText(generatedScript.script);
+                    toast.success('Script copied to clipboard!');
+                  }}
+                >
+                  <Copy className="h-4 w-4 mr-2" />
+                  Copy
+                </Button>
+              </div>
+              <div className="mt-1.5 rounded-md border border-border/50 overflow-hidden">
+                <Editor
+                  height="200px"
+                  language="markdown"
+                  value={generatedScript.script}
+                  onChange={(value) => setGeneratedScript({ ...generatedScript, script: value })}
+                  theme={theme === 'dark' ? 'vs-dark' : 'vs-light'}
+                  options={{
+                    minimap: { enabled: false },
+                    scrollBeyondLastLine: false,
+                    fontSize: 14,
+                    wordWrap: 'on',
+                  }}
+                />
+              </div>
             </div>
           </div>
         )}

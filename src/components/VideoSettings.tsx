@@ -14,11 +14,11 @@ interface VideoSettingsProps {
     transitionDuration: number;
     fontSize: number;
   };
-  onSettingsChange: (settings: any) => void;
+  onSettingsChange: (settings: unknown) => void;
 }
 
 export const VideoSettings = ({ settings, onSettingsChange }: VideoSettingsProps) => {
-  const updateSetting = (key: string, value: any) => {
+  const updateSetting = (key: string, value: unknown) => {
     onSettingsChange({ ...settings, [key]: value });
   };
 
