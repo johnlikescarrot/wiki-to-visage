@@ -18,11 +18,11 @@ interface ProjectManagerProps {
   currentProject: {
     title: string;
     url: string;
-    articleData: any;
-    script: any;
-    settings: any;
+    articleData: unknown;
+    script: unknown;
+    settings: unknown;
   } | null;
-  onLoadProject: (projectData: any) => void;
+  onLoadProject: (projectData: unknown) => void;
 }
 
 export const ProjectManager = ({ currentProject, onLoadProject }: ProjectManagerProps) => {

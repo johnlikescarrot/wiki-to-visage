@@ -3,11 +3,13 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Sparkles, Wand2, Zap, Film } from 'lucide-react';
 
+import { ElementType } from 'react';
+
 interface Template {
   id: string;
   name: string;
   description: string;
-  icon: any;
+  icon: ElementType;
   style: {
     fontFamily: string;
     primaryColor: string;

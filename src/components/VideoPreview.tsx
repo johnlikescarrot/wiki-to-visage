@@ -3,8 +3,8 @@ import { Play, Volume2, Settings } from 'lucide-react';
 import { Button } from './ui/button';
 
 interface VideoPreviewProps {
-  articleData?: any;
-  script?: any;
+  articleData?: unknown;
+  script?: unknown;
 }
 
 export const VideoPreview = ({ articleData, script }: VideoPreviewProps) => {
@@ -61,7 +61,7 @@ export const VideoPreview = ({ articleData, script }: VideoPreviewProps) => {
         <div className="p-4 border-t border-border/50">
           <h4 className="text-sm font-medium mb-3 text-muted-foreground">Timeline</h4>
           <div className="space-y-2">
-            {script.scenes.slice(0, 3).map((scene: any, idx: number) => (
+            {script.scenes.slice(0, 3).map((scene: { text: string; duration: number; visualSuggestion: string }, idx: number) => (
               <div key={idx} className="flex gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
                 <div className="w-8 h-8 rounded bg-primary/20 flex items-center justify-center text-xs font-semibold text-primary">
                   {idx + 1}

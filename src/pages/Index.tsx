@@ -9,11 +9,12 @@ import { VideoSettings } from '@/components/VideoSettings';
 import { ProjectManager } from '@/components/ProjectManager';
 import { Sparkles, Video, Zap, ChevronRight } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ThemeToggler } from '@/components/ThemeToggler';
 
 const Index = () => {
-  const [articleData, setArticleData] = useState<any>(null);
-  const [script, setScript] = useState<any>(null);
-  const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
+  const [articleData, setArticleData] = useState<unknown>(null);
+  const [script, setScript] = useState<unknown>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<unknown>(null);
   const [videoSettings, setVideoSettings] = useState({
     aspectRatio: '16:9',
     quality: '1080p',
@@ -24,11 +25,11 @@ const Index = () => {
     fontSize: 24,
   });
 
-  const handleScriptGenerated = (generatedScript: any) => {
+  const handleScriptGenerated = (generatedScript: unknown) => {
     setScript(generatedScript);
   };
 
-  const handleScenesUpdate = (updatedScenes: any[]) => {
+  const handleScenesUpdate = (updatedScenes: unknown[]) => {
     if (script) {
       setScript({
         ...script,
@@ -38,7 +39,7 @@ const Index = () => {
     }
   };
 
-  const handleLoadProject = (projectData: any) => {
+  const handleLoadProject = (projectData: unknown) => {
     setArticleData(projectData.articleData);
     setScript(projectData.script);
     if (projectData.settings) {
@@ -81,6 +82,7 @@ const Index = () => {
                 <Sparkles className="h-3 w-3 text-accent" />
                 <span>Production Ready</span>
               </div>
+              <ThemeToggler />
             </div>
           </div>
         </div>

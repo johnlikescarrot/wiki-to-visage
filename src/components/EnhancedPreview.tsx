@@ -4,10 +4,10 @@ import { Play, Download, Share2, Maximize2 } from 'lucide-react';
 import { useState } from 'react';
 
 interface EnhancedPreviewProps {
-  articleData?: any;
-  script?: any;
-  template?: any;
-  settings?: any;
+  articleData?: unknown;
+  script?: unknown;
+  template?: unknown;
+  settings?: unknown;
 }
 
 export const EnhancedPreview = ({ articleData, script, template, settings }: EnhancedPreviewProps) => {

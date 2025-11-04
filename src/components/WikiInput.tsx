@@ -5,7 +5,7 @@ import { Link2, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface WikiInputProps {
-  onParse: (data: any) => void;
+  onParse: (data: unknown) => void;
   isLoading?: boolean;
 }
 
